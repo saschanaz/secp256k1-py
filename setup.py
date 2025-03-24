@@ -22,7 +22,12 @@ from setuptools.command.sdist import sdist as _sdist
 try:
     from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
 except ImportError:
-    from setuptools.command.bdist_wheel import bdist_wheel as _bdist_wheel
+    try:
+        from setuptools.command.bdist_wheel import bdist_wheel as _bdist_wheel
+    except ImportError:
+        _bdist_wheel = None
+        pass
+
 
 try:
     from urllib2 import urlopen, URLError
@@ -103,10 +108,13 @@ class sdist(_sdist):
         _sdist.run(self)
 
 
-class bdist_wheel(_bdist_wheel):
-    def run(self):
-        download_library(self)
-        _bdist_wheel.run(self)
+if _bdist_wheel:
+    class bdist_wheel(_bdist_wheel):
+        def run(self):
+            download_library(self)
+            _bdist_wheel.run(self)
+else:
+    bdist_wheel = None
 
 
 class Distribution(_Distribution):
