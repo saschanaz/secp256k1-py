@@ -8,20 +8,23 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: 
-          - ubuntu-20.04
-# Windows is broken
-#          - windows-2019
-          - macOS-10.15
+        os:
+          - ubuntu-24.04
+          # cibuildwheel installs lower version of setuptools
+          # that selects incorrect MSVC and thus fails to build.
+          # Migrating to pyproject.toml can set the setuptools
+          # version requirement, but we don't have it yet.
+          # - windows-2022
+          - macOS-14
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       # Used to host cibuildwheel
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v5
 
       - name: Install cibuildwheel
-        run: python -m pip install cibuildwheel==2.2.2
+        run: python -m pip install cibuildwheel==2.23.2
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
@@ -36,6 +39,6 @@ jobs:
             brew install automake
           CIBW_SKIP: "pp*"
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           path: ./wheelhouse/*.whl
