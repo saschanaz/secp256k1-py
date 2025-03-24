@@ -26,10 +26,8 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y libffi8
-
-      - if: matrix.os == 'macos-14'
-        name: Install macOS prerequisites
-        run: brew install libffi
+          echo $PKG_CONFIG_PATH
+          ls $PKG_CONFIG_PATH
 
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.2.2
