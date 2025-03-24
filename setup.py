@@ -6,10 +6,9 @@ import shutil
 import subprocess
 import tarfile
 import tempfile
-from distutils import log
-from distutils.command.build_clib import build_clib as _build_clib
-from distutils.command.build_ext import build_ext as _build_ext
-from distutils.errors import DistutilsError
+from setuptools.command.build_clib import build_clib as _build_clib
+from setuptools.command.build_ext import build_ext as _build_ext
+from setuptools.errors import BaseError
 from io import BytesIO
 import sys
 
@@ -260,7 +259,7 @@ class build_ext(_build_ext):
 class develop(_develop):
     def run(self):
         if not has_system_lib():
-            raise DistutilsError(
+            raise BaseError(
                 "This library is not usable in 'develop' mode when using the "
                 "bundled libsecp256k1. See README for details.")
         _develop.run(self)
