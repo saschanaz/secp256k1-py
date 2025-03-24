@@ -24,8 +24,6 @@ try:
 except ImportError:
     from setuptools.command.bdist_wheel import bdist_wheel as _bdist_wheel
 
-from setuptools.command.bdist_wheel import bdist_wheel as _bdist_wheel
-
 try:
     from urllib2 import urlopen, URLError
 except ImportError:
