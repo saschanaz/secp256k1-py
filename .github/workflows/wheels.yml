@@ -26,11 +26,11 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y libffi8
-          ls /usr/local/lib/x86_64-linux-gnu/pkgconfig/usr/local/lib/pkgconfig
-          ls /usr/local/share/pkgconfig
-          ls /usr/lib/x86_64-linux-gnu/pkgconfig
-          ls /usr/lib/pkgconfig
-          ls /usr/share/pkgconfig
+          ls /usr/local/lib/x86_64-linux-gnu/pkgconfig/usr/local/lib/pkgconfig || true
+          ls /usr/local/share/pkgconfig || true
+          ls /usr/lib/x86_64-linux-gnu/pkgconfig  || true
+          ls /usr/lib/pkgconfig || true
+          ls /usr/share/pkgconfig || true
 
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.2.2
