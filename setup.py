@@ -15,16 +15,11 @@ import sys
 
 from setuptools import (Distribution as _Distribution,
                         setup,
-                        find_packages,
                         __version__ as setuptools_version)
 from setuptools.command.develop import develop as _develop
 from setuptools.command.egg_info import egg_info as _egg_info
 from setuptools.command.sdist import sdist as _sdist
-try:
-    from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
-except ImportError:
-    _bdist_wheel = None
-    pass
+from setuptools.command.bdist_wheel import bdist_wheel as _bdist_wheel
 
 try:
     from urllib2 import urlopen, URLError
@@ -105,13 +100,10 @@ class sdist(_sdist):
         _sdist.run(self)
 
 
-if _bdist_wheel:
-    class bdist_wheel(_bdist_wheel):
-        def run(self):
-            download_library(self)
-            _bdist_wheel.run(self)
-else:
-    bdist_wheel = None
+class bdist_wheel(_bdist_wheel):
+    def run(self):
+        download_library(self)
+        _bdist_wheel.run(self)
 
 
 class Distribution(_Distribution):
@@ -261,30 +253,7 @@ class develop(_develop):
         _develop.run(self)
 
 
-with io.open('README.md', encoding='utf-8') as f:
-    long_description = f.read()
-
 setup(
-    name="secp256k1",
-    version="0.14.0",
-
-    description='FFI bindings to libsecp256k1',
-    long_description=long_description,
-    long_description_content_type='text/markdown',
-    url='https://github.com/rustyrussell/secp256k1-py',
-    author='Ludvig Broberg',
-    author_email='lud@tutanota.com',
-    maintainer='Rusty Russell',
-    maintainer_email='rusty@rustcorp.com.au',
-    license='MIT',
-
-    setup_requires=['cffi>=1.3.0', 'pytest-runner==2.6.2'],
-    install_requires=['cffi>=1.3.0'],
-    tests_require=['pytest==2.8.7'],
-
-    packages=find_packages(exclude=('_cffi_build',
-                                    '_cffi_build.*',
-                                    'libsecp256k1')),
     ext_package="secp256k1",
     cffi_modules=[
         "_cffi_build/build.py:ffi"
@@ -299,16 +268,4 @@ setup(
         'bdist_wheel': bdist_wheel
     },
     distclass=Distribution,
-    zip_safe=False,
-
-    classifiers=[
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: Implementation :: CPython",
-        "Programming Language :: Python :: Implementation :: PyPy",
-        "Topic :: Software Development :: Libraries",
-        "Topic :: Security :: Cryptography"
-    ]
 )
