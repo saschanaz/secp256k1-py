@@ -119,6 +119,8 @@ else:
 
 class Distribution(_Distribution):
     def has_c_libraries(self):
+        has_lib = not has_system_lib()
+        print(f"has_c_libraries(): {has_lib}")
         return not has_system_lib()
 
 
