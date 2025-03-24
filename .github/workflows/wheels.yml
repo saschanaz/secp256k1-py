@@ -20,9 +20,12 @@ jobs:
       # Used to host cibuildwheel
       - uses: actions/setup-python@v5
 
+      # Installing libffi to build cffi
       - if: matrix.os == 'ubuntu-24.04'
         name: Install Ubuntu prerequisites
-        run: apt install libffi-dev
+        run: |
+          sudo update
+          sudo apt install -y libffi-dev
 
       - if: matrix.os == 'macos-14'
         name: Install macOS prerequisites
