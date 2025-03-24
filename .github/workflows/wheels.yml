@@ -25,7 +25,7 @@ jobs:
         name: Install Ubuntu prerequisites
         run: |
           sudo apt update
-          sudo apt install -y libffi
+          sudo apt install -y libffi8
 
       - if: matrix.os == 'macos-14'
         name: Install macOS prerequisites
