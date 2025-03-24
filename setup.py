@@ -19,6 +19,11 @@ from setuptools import (Distribution as _Distribution,
 from setuptools.command.develop import develop as _develop
 from setuptools.command.egg_info import egg_info as _egg_info
 from setuptools.command.sdist import sdist as _sdist
+try:
+    from wheel.bdist_wheel import bdist_wheel as _bdist_wheel
+except ImportError:
+    from setuptools.command.bdist_wheel import bdist_wheel as _bdist_wheel
+
 from setuptools.command.bdist_wheel import bdist_wheel as _bdist_wheel
 
 try:
