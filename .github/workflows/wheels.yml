@@ -9,10 +9,10 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu-20.04
+          - ubuntu-24.04
 # Windows is broken
 #          - windows-2019
-          - macOS-10.15
+          - macOS-14
 
     steps:
       - uses: actions/checkout@v4
