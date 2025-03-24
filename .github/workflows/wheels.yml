@@ -26,8 +26,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y libffi8
-          echo $PKG_CONFIG_PATH
-          ls $PKG_CONFIG_PATH
+          echo $(pkg-config --variable pc_path pkg-config)
 
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.2.2
