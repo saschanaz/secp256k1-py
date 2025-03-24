@@ -1,5 +1,5 @@
 import errno
-import io
+import logging
 import os
 import os.path
 import shutil
@@ -63,6 +63,7 @@ except OSError:
         "Please see the README for details."
     )
 
+log = logging.getLogger("secp256k1")
 
 def download_library(command):
     if command.dry_run:
@@ -73,7 +74,7 @@ def download_library(command):
         return
     if not os.path.exists(libdir):
         command.announce("downloading libsecp256k1 source code",
-                         level=log.INFO)
+                         level=logging.INFO)
         try:
             r = urlopen(LIB_TARBALL_URL)
             if r.getcode() == 200:
